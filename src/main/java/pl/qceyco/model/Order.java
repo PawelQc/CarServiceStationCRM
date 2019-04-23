@@ -1,5 +1,9 @@
 package pl.qceyco.model;
 
+import pl.qceyco.dao.EmployeeDao;
+import pl.qceyco.dao.StatusDao;
+import pl.qceyco.dao.VehicleDao;
+
 import java.sql.Date;
 
 public class Order {
@@ -154,5 +158,42 @@ public class Order {
 
     public void setRepairTimeInHours(double repairTimeInHours) {
         this.repairTimeInHours = repairTimeInHours;
+    }
+
+    public void setAssignedEmployeeById(int employeeId) {
+        EmployeeDao employeeDao = new EmployeeDao();
+        Employee assignedEmployee = employeeDao.getEmployeeById(employeeId);
+        this.assignedEmployee = assignedEmployee;
+    }
+
+    public void setRepairedVehicleById(int vehicleId) {
+        VehicleDao vehicleDao = new VehicleDao();
+        Vehicle repairedVehicle = vehicleDao.getVehicleById(vehicleId);
+        this.repairedVehicle = repairedVehicle;
+    }
+
+    public void setRepairStatusById(int statusId) {
+        StatusDao statusDao = new StatusDao();
+        Status repairStatus = statusDao.getStatusById(statusId);
+        this.repairStatus = repairStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", acceptanceDate=" + acceptanceDate +
+                ", plannedRepairStartDate=" + plannedRepairStartDate +
+                ", actualRepairStartDate=" + actualRepairStartDate +
+                ", assignedEmployee=" + assignedEmployee +
+                ", problemDescription='" + problemDescription + '\'' +
+                ", repairDescription='" + repairDescription + '\'' +
+                ", repairStatus=" + repairStatus +
+                ", repairedVehicle=" + repairedVehicle +
+                ", costFinalToPay=" + costFinalToPay +
+                ", costUsedParts=" + costUsedParts +
+                ", costEmployeeHourlyRate=" + costEmployeeHourlyRate +
+                ", repairTimeInHours=" + repairTimeInHours +
+                '}';
     }
 }

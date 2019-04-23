@@ -3,38 +3,21 @@ package pl.qceyco.model;
 public class Status {
 
     private int id;
-    private boolean vehicleAccepted;
-    private boolean costApproved;
-    private boolean inRepair;
-    private boolean repairComplete;
-    private boolean resignation;
+    private String name;
+    private int statusOrder;
 
     public Status() {
     }
 
-    public Status(boolean vehicleAccepted, boolean costApproved, boolean inRepair, boolean repairComplete, boolean resignation) {
-        this.vehicleAccepted = vehicleAccepted;
-        this.costApproved = costApproved;
-        this.inRepair = inRepair;
-        this.repairComplete = repairComplete;
-        this.resignation = resignation;
+    public Status(String name, int statusOrder) {
+        this.name = name;
+        this.statusOrder = statusOrder;
     }
 
-    public Status(int id, boolean vehicleAccepted, boolean costApproved, boolean inRepair, boolean repairComplete, boolean resignation) {
+    public Status(int id, String name, int statusOrder) {
         this.id = id;
-        this.vehicleAccepted = vehicleAccepted;
-        this.costApproved = costApproved;
-        this.inRepair = inRepair;
-        this.repairComplete = repairComplete;
-        this.resignation = resignation;
-    }
-
-    public boolean isInRepair() {
-        return inRepair;
-    }
-
-    public void setInRepair(boolean inRepair) {
-        this.inRepair = inRepair;
+        this.name = name;
+        this.statusOrder = statusOrder;
     }
 
     public int getId() {
@@ -45,35 +28,28 @@ public class Status {
         this.id = id;
     }
 
-    public boolean isVehicleAccepted() {
-        return vehicleAccepted;
+    public String getName() {
+        return name;
     }
 
-    public void setVehicleAccepted(boolean vehicleAccepted) {
-        this.vehicleAccepted = vehicleAccepted;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean isCostApproved() {
-        return costApproved;
+    public int getStatusOrder() {
+        return statusOrder;
     }
 
-    public void setCostApproved(boolean costApproved) {
-        this.costApproved = costApproved;
+    public void setStatusOrder(int statusOrder) {
+        this.statusOrder = statusOrder;
     }
 
-    public boolean isRepairComplete() {
-        return repairComplete;
-    }
-
-    public void setRepairComplete(boolean repairComplete) {
-        this.repairComplete = repairComplete;
-    }
-
-    public boolean isResignation() {
-        return resignation;
-    }
-
-    public void setResignation(boolean resignation) {
-        this.resignation = resignation;
+    @Override
+    public String toString() {
+        return "Status{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", statusOrder=" + statusOrder +
+                '}';
     }
 }
