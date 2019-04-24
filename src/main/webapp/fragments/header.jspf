@@ -1,0 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<header>
+    <a href="/" style="padding-right: 20px">Home</a>
+    <a href="/clients" style="padding-right: 20px">Clients</a>
+    <a href="/orders" style="padding-right: 20px">Orders</a>
+    <a href="/employees" style="padding-right: 20px">Employees</a>
+    <a href="/reports" style="padding-right: 20px">Reports</a>
+    <br><br>
+</header>
