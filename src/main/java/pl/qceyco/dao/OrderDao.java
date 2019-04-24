@@ -17,6 +17,7 @@ public class OrderDao {
     private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders;";
     private static final String GET_ORDER_BY_ID_QUERY = "SELECT * FROM orders WHERE id = ?;";
     private static final String GET_ORDERS_BY_EMPLOYEE_ID = "SELECT * FROM orders WHERE employee_id = ?;";
+    private static final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM orders JOIN vehicles ON orders.vehicle_id = vehicles.id WHERE vehicles.customer_id = ?;";
 
     public Order createOrder(Order order) {
         try (Connection connection = DbUtil.getConnection();
@@ -170,4 +171,34 @@ public class OrderDao {
         return orderList;
     }
 
+
+    public List<Order> getOrdersByCustomerId(int customerId) {
+        List<Order> orderList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_ORDERS_BY_CUSTOMER_ID)) {
+            statement.setInt(1, customerId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order();
+                    order.setId(resultSet.getInt("id"));
+                    order.setAcceptanceDate(resultSet.getDate("acceptance_date"));
+                    order.setPlannedRepairStartDate(resultSet.getDate("planned_repair_start_date"));
+                    order.setActualRepairStartDate(resultSet.getDate("actual_repair_start_date"));
+                    order.setProblemDescription(resultSet.getString("problem_description"));
+                    order.setRepairDescription(resultSet.getString("repair_description"));
+                    order.setCostFinalToPay(resultSet.getDouble("cost_final_to_pay"));
+                    order.setCostUsedParts(resultSet.getDouble("cost_used_parts"));
+                    order.setCostEmployeeHourlyRate(resultSet.getDouble("cost_employee_hourly_rate"));
+                    order.setRepairTimeInHours(resultSet.getDouble("repair_time_in_hours"));
+                    order.setAssignedEmployeeById(resultSet.getInt("employee_id"));
+                    order.setRepairedVehicleById(resultSet.getInt("vehicle_id"));
+                    order.setRepairStatusById(resultSet.getInt("status_id"));
+                    orderList.add(order);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderList;
+    }
 }

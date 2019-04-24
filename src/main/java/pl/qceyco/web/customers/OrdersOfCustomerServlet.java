@@ -1,8 +1,6 @@
-package pl.qceyco.web.employees;
+package pl.qceyco.web.customers;
 
-import pl.qceyco.dao.EmployeeDao;
 import pl.qceyco.dao.OrderDao;
-import pl.qceyco.model.Employee;
 import pl.qceyco.model.Order;
 
 import javax.servlet.ServletException;
@@ -13,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/orders-of-employee")
-public class OrdersOfEmployeeServlet extends HttpServlet {
+@WebServlet("/orders-of-customer")
+public class OrdersOfCustomerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         OrderDao orderDao = new OrderDao();
-        List<Order> orders = orderDao.getOrdersByEmployeeId(Integer.valueOf(id));
+        List<Order> orders = orderDao.getOrdersByCustomerId(Integer.valueOf(id));
         if (orders == null || orders.size() == 0) {
-            request.setAttribute("noAssignedOrdersError", "This employee has no assigned orders");
+            request.setAttribute("noOrdersMadeError", "This customer has made no orders!");
         }
         request.setAttribute("orders", orders);
-        request.setAttribute("employeeId", id);
-        getServletContext().getRequestDispatcher("/employees/ordersOfEmployee.jsp")
+        request.setAttribute("customerId", id);
+        getServletContext().getRequestDispatcher("/customers/ordersOfCustomer.jsp")
                 .forward(request, response);
     }
 }

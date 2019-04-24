@@ -1,5 +1,6 @@
 package pl.qceyco.dao;
 
+import pl.qceyco.model.Order;
 import pl.qceyco.model.Vehicle;
 import pl.qceyco.utils.DbUtil;
 
@@ -17,6 +18,7 @@ public class VehicleDao {
     private static final String DELETE_VEHICLE_QUERY = "DELETE FROM vehicles WHERE id = ?;";
     private static final String GET_ALL_VEHICLES_QUERY = "SELECT * FROM vehicles;";
     private static final String GET_VEHICLE_BY_ID_QUERY = "SELECT * FROM vehicles WHERE id = ?;";
+    private static final String GET_VEHICLES_BY_CUSTOMER_ID_QUERY = "SELECT * FROM vehicles WHERE customer_id = ?;";
 
     public Vehicle createVehicle(Vehicle vehicle) {
         try (Connection connection = DbUtil.getConnection();
@@ -115,6 +117,31 @@ public class VehicleDao {
         }
         return vehicleList;
     }
+
+    public List<Vehicle> getVehiclesByCustomerId(int customerId) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_VEHICLES_BY_CUSTOMER_ID_QUERY)) {
+            statement.setInt(1, customerId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Vehicle vehicle = new Vehicle();
+                    vehicle.setId(resultSet.getInt("id"));
+                    vehicle.setModel(resultSet.getString("model"));
+                    vehicle.setBrand(resultSet.getString("brand"));
+                    vehicle.setProductionYear(resultSet.getInt("production_year"));
+                    vehicle.setRegistrationNumber(resultSet.getString("registration_number"));
+                    vehicle.setNextReviewDate(resultSet.getDate("next_review_date"));
+                    vehicle.setCustomerById(resultSet.getInt("customer_id"));
+                    vehicleList.add(vehicle);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vehicleList;
+    }
+
 
 
 }
