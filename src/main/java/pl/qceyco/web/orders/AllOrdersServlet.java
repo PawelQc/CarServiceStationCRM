@@ -1,4 +1,4 @@
-package pl.qceyco.web;
+package pl.qceyco.web.orders;
 
 import pl.qceyco.dao.OrderDao;
 import pl.qceyco.model.Order;
@@ -11,23 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/orders")
+public class AllOrdersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        //DO ZMIANY METODA-POKAZUJEMY TYLKO AKTUALNE ORDERY
-
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getAllOrders();
-        if (orders == null) {
-            request.setAttribute("noOrdersError", "There are no pending orders");
-            getServletContext().getRequestDispatcher("/index.jsp")
+        if (orders == null || orders.size() == 0) {
+            request.setAttribute("noOrdersError", "There are no orders in the database!");
+            getServletContext().getRequestDispatcher("/allOrders.jsp")
                     .forward(request, response);
             return;
         }
         request.setAttribute("orders", orders);
-        getServletContext().getRequestDispatcher("/index.jsp")
+        getServletContext().getRequestDispatcher("/orders/allOrders.jsp")
                 .forward(request, response);
     }
 }
