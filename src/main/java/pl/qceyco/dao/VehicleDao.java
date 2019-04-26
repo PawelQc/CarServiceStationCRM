@@ -1,6 +1,5 @@
 package pl.qceyco.dao;
 
-import pl.qceyco.model.Order;
 import pl.qceyco.model.Vehicle;
 import pl.qceyco.utils.DbUtil;
 
@@ -24,12 +23,7 @@ public class VehicleDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE_VEHICLE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, vehicle.getModel());
-            statement.setString(2, vehicle.getBrand());
-            statement.setInt(3, vehicle.getProductionYear());
-            statement.setString(4, vehicle.getRegistrationNumber());
-            statement.setDate(5, vehicle.getNextReviewDate());
-            statement.setInt(6, vehicle.getCustomer().getId());
+            getVehicleValues(vehicle, statement);
             int result = statement.executeUpdate();
             if (result != 1) {
                 throw new RuntimeException("Execute update returned " + result);
@@ -52,12 +46,7 @@ public class VehicleDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_VEHICLE_QUERY)) {
             statement.setInt(7, vehicle.getId());
-            statement.setString(1, vehicle.getModel());
-            statement.setString(2, vehicle.getBrand());
-            statement.setInt(3, vehicle.getProductionYear());
-            statement.setString(4, vehicle.getRegistrationNumber());
-            statement.setDate(5, vehicle.getNextReviewDate());
-            statement.setInt(6, vehicle.getCustomer().getId());
+            getVehicleValues(vehicle, statement);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,13 +70,7 @@ public class VehicleDao {
             statement.setInt(1, vehicleId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    vehicle.setId(resultSet.getInt("id"));
-                    vehicle.setModel(resultSet.getString("model"));
-                    vehicle.setBrand(resultSet.getString("brand"));
-                    vehicle.setProductionYear(resultSet.getInt("production_year"));
-                    vehicle.setRegistrationNumber(resultSet.getString("registration_number"));
-                    vehicle.setNextReviewDate(resultSet.getDate("next_review_date"));
-                    vehicle.setCustomerById(resultSet.getInt("customer_id"));
+                    setVehicleValues(vehicle, resultSet);
                 }
             }
         } catch (Exception e) {
@@ -103,13 +86,7 @@ public class VehicleDao {
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Vehicle vehicle = new Vehicle();
-                vehicle.setId(resultSet.getInt("id"));
-                vehicle.setModel(resultSet.getString("model"));
-                vehicle.setBrand(resultSet.getString("brand"));
-                vehicle.setProductionYear(resultSet.getInt("production_year"));
-                vehicle.setRegistrationNumber(resultSet.getString("registration_number"));
-                vehicle.setNextReviewDate(resultSet.getDate("next_review_date"));
-                vehicle.setCustomerById(resultSet.getInt("customer_id"));
+                setVehicleValues(vehicle, resultSet);
                 vehicleList.add(vehicle);
             }
         } catch (SQLException e) {
@@ -126,13 +103,7 @@ public class VehicleDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Vehicle vehicle = new Vehicle();
-                    vehicle.setId(resultSet.getInt("id"));
-                    vehicle.setModel(resultSet.getString("model"));
-                    vehicle.setBrand(resultSet.getString("brand"));
-                    vehicle.setProductionYear(resultSet.getInt("production_year"));
-                    vehicle.setRegistrationNumber(resultSet.getString("registration_number"));
-                    vehicle.setNextReviewDate(resultSet.getDate("next_review_date"));
-                    vehicle.setCustomerById(resultSet.getInt("customer_id"));
+                    setVehicleValues(vehicle, resultSet);
                     vehicleList.add(vehicle);
                 }
             }
@@ -142,6 +113,24 @@ public class VehicleDao {
         return vehicleList;
     }
 
+    private void getVehicleValues(Vehicle vehicle, PreparedStatement statement) throws SQLException {
+        statement.setString(1, vehicle.getModel());
+        statement.setString(2, vehicle.getBrand());
+        statement.setInt(3, vehicle.getProductionYear());
+        statement.setString(4, vehicle.getRegistrationNumber());
+        statement.setDate(5, vehicle.getNextReviewDate());
+        statement.setInt(6, vehicle.getCustomer().getId());
+    }
+
+    private void setVehicleValues(Vehicle vehicle, ResultSet resultSet) throws SQLException {
+        vehicle.setId(resultSet.getInt("id"));
+        vehicle.setModel(resultSet.getString("model"));
+        vehicle.setBrand(resultSet.getString("brand"));
+        vehicle.setProductionYear(resultSet.getInt("production_year"));
+        vehicle.setRegistrationNumber(resultSet.getString("registration_number"));
+        vehicle.setNextReviewDate(resultSet.getDate("next_review_date"));
+        vehicle.setCustomerById(resultSet.getInt("customer_id"));
+    }
 
 
 }

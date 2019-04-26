@@ -22,12 +22,7 @@ public class EmployeeDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE_EMPLOYEE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, employee.getFirstName());
-            statement.setString(2, employee.getLastName());
-            statement.setString(3, employee.getAddress());
-            statement.setString(4, employee.getPhoneNumber());
-            statement.setString(5, employee.getRemarks());
-            statement.setDouble(6, employee.getHourlyRate());
+            getEmployeeValues(employee, statement);
             int result = statement.executeUpdate();
             if (result != 1) {
                 throw new RuntimeException("Execute update returned " + result);
@@ -50,12 +45,7 @@ public class EmployeeDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_EMPLOYEE_QUERY)) {
             statement.setInt(7, employee.getId());
-            statement.setString(1, employee.getFirstName());
-            statement.setString(2, employee.getLastName());
-            statement.setString(3, employee.getAddress());
-            statement.setString(4, employee.getPhoneNumber());
-            statement.setString(5, employee.getRemarks());
-            statement.setDouble(6, employee.getHourlyRate());
+            getEmployeeValues(employee, statement);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,13 +69,7 @@ public class EmployeeDao {
             statement.setInt(1, employeeId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    employee.setId(resultSet.getInt("id"));
-                    employee.setFirstName(resultSet.getString("first_name"));
-                    employee.setLastName(resultSet.getString("last_name"));
-                    employee.setAddress(resultSet.getString("address"));
-                    employee.setPhoneNumber(resultSet.getString("phone_number"));
-                    employee.setRemarks(resultSet.getString("remarks"));
-                    employee.setHourlyRate(resultSet.getDouble("hourly_rate"));
+                    setEmployeeValues(resultSet, employee);
                 }
             }
         } catch (Exception e) {
@@ -101,13 +85,7 @@ public class EmployeeDao {
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setId(resultSet.getInt("id"));
-                employee.setFirstName(resultSet.getString("first_name"));
-                employee.setLastName(resultSet.getString("last_name"));
-                employee.setAddress(resultSet.getString("address"));
-                employee.setPhoneNumber(resultSet.getString("phone_number"));
-                employee.setRemarks(resultSet.getString("remarks"));
-                employee.setHourlyRate(resultSet.getDouble("hourly_rate"));
+                setEmployeeValues(resultSet, employee);
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
@@ -116,6 +94,24 @@ public class EmployeeDao {
         return employeeList;
     }
 
+    private void setEmployeeValues(ResultSet resultSet, Employee employee) throws SQLException {
+        employee.setId(resultSet.getInt("id"));
+        employee.setFirstName(resultSet.getString("first_name"));
+        employee.setLastName(resultSet.getString("last_name"));
+        employee.setAddress(resultSet.getString("address"));
+        employee.setPhoneNumber(resultSet.getString("phone_number"));
+        employee.setRemarks(resultSet.getString("remarks"));
+        employee.setHourlyRate(resultSet.getDouble("hourly_rate"));
+    }
+
+    private void getEmployeeValues(Employee employee, PreparedStatement statement) throws SQLException {
+        statement.setString(1, employee.getFirstName());
+        statement.setString(2, employee.getLastName());
+        statement.setString(3, employee.getAddress());
+        statement.setString(4, employee.getPhoneNumber());
+        statement.setString(5, employee.getRemarks());
+        statement.setDouble(6, employee.getHourlyRate());
+    }
 
 }
 

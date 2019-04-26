@@ -2,6 +2,7 @@ package pl.qceyco.dao;
 
 import pl.qceyco.model.Customer;
 import pl.qceyco.utils.DbUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,9 +23,7 @@ public class CustomerDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE_CUSTOMER_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, customer.getFirstName());
-            statement.setString(2, customer.getLastName());
-            statement.setDate(3, customer.getBirthDate());
+            getCustomerValues(customer, statement);
             int result = statement.executeUpdate();
             if (result != 1) {
                 throw new RuntimeException("Execute update returned " + result);
@@ -47,9 +46,7 @@ public class CustomerDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_CUSTOMER_QUERY)) {
             statement.setInt(4, customer.getId());
-            statement.setString(1, customer.getFirstName());
-            statement.setString(2, customer.getLastName());
-            statement.setDate(3, customer.getBirthDate());
+            getCustomerValues(customer, statement);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,10 +70,7 @@ public class CustomerDao {
             statement.setInt(1, customerId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    customer.setId(resultSet.getInt("id"));
-                    customer.setFirstName(resultSet.getString("first_name"));
-                    customer.setLastName(resultSet.getString("last_name"));
-                    customer.setBirthDate(resultSet.getDate("birth_date"));
+                    setCustomerValues(customer, resultSet);
                 }
             }
         } catch (Exception e) {
@@ -92,16 +86,26 @@ public class CustomerDao {
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Customer customer = new Customer();
-                customer.setId(resultSet.getInt("id"));
-                customer.setFirstName(resultSet.getString("first_name"));
-                customer.setLastName(resultSet.getString("last_name"));
-                customer.setBirthDate(resultSet.getDate("birth_date"));
+                setCustomerValues(customer, resultSet);
                 customerList.add(customer);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return customerList;
+    }
+
+    private void getCustomerValues(Customer customer, PreparedStatement statement) throws SQLException {
+        statement.setString(1, customer.getFirstName());
+        statement.setString(2, customer.getLastName());
+        statement.setDate(3, customer.getBirthDate());
+    }
+
+    private void setCustomerValues(Customer customer, ResultSet resultSet) throws SQLException {
+        customer.setId(resultSet.getInt("id"));
+        customer.setFirstName(resultSet.getString("first_name"));
+        customer.setLastName(resultSet.getString("last_name"));
+        customer.setBirthDate(resultSet.getDate("birth_date"));
     }
 
 }
