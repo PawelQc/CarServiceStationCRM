@@ -8,7 +8,10 @@
 <%@ include file="../fragments/header.jspf" %>
 
 <h2>List of vehicles owned by customer of id ${customerId}</h2>
-<h4>${noVehiclesError}</h4>
+
+<a href="/add-vehicle?customerId=${customerId}">Add vehicle</a>
+
+<h4>${noVehiclesError}</h4> <h4>${deleteMessage}</h4>
 
 <table border="1">
     <thead>
@@ -19,6 +22,7 @@
     <th>Registration no</th>
     <th>Review date</th>
     <th>Customer</th>
+    <th>Actions</th>
     </thead>
     <tbody>
     <c:forEach items="${vehicles}" var="vehicle" varStatus="count">
@@ -30,6 +34,11 @@
             <td>${vehicle.registrationNumber}</td>
             <td>${vehicle.nextReviewDate}</td>
             <td>${vehicle.customer.firstName} ${vehicle.customer.lastName}</td>
+            <td>
+                <a href="/update-vehicle?vehicleId=${vehicle.id}">Edit</a>
+                <a href="/delete-vehicle?vehicleId=${vehicle.id}">Delete</a>
+                <a href="/orders-of-vehicle?vehicleId=${vehicle.id}">Repair history</a>
+            </td>
         </tr>
     </c:forEach>
     </tbody>

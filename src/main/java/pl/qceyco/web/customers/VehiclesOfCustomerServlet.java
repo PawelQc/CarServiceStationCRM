@@ -1,8 +1,6 @@
 package pl.qceyco.web.customers;
 
-import pl.qceyco.dao.OrderDao;
 import pl.qceyco.dao.VehicleDao;
-import pl.qceyco.model.Order;
 import pl.qceyco.model.Vehicle;
 
 import javax.servlet.ServletException;
