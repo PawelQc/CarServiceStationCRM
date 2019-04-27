@@ -11,9 +11,10 @@ public class OrderDao {
     private static final String CREATE_ORDER_QUERY = "INSERT INTO orders(acceptance_date, planned_repair_start_date, actual_repair_start_date, problem_description, repair_description, cost_final_to_pay, cost_used_parts, cost_employee_hourly_rate, repair_time_in_hours, employee_id, vehicle_id, status_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
     private static final String UPDATE_ORDER_QUERY = "UPDATE orders SET acceptance_date=?, planned_repair_start_date=?, actual_repair_start_date=?, problem_description=?, repair_description=?, cost_final_to_pay=?, cost_used_parts=?, cost_employee_hourly_rate=?, repair_time_in_hours=?, employee_id=?, vehicle_id=?, status_id=? WHERE id = ?;";
     private static final String DELETE_ORDER_QUERY = "DELETE FROM orders WHERE id = ?;";
-    private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders;";
+    private static final String GET_ALL_ORDERS_QUERY = "SELECT * FROM orders ORDER BY id DESC;";
+    private static final String GET_ALL_ACTIVE_ORDERS_QUERY = "SELECT * FROM orders WHERE status_id=3 ORDER BY employee_id ASC;";
     private static final String GET_ORDER_BY_ID_QUERY = "SELECT * FROM orders WHERE id = ?;";
-    private static final String GET_ORDERS_BY_EMPLOYEE_ID = "SELECT * FROM orders WHERE employee_id = ?;";
+    private static final String GET_ACTIVE_ORDERS_BY_EMPLOYEE_ID = "SELECT * FROM orders WHERE employee_id = ? AND status_id=3;";
     private static final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM orders JOIN vehicles ON orders.vehicle_id = vehicles.id WHERE vehicles.customer_id = ?;";
     private static final String GET_ORDERS_BY_VEHICLE_ID = "SELECT * FROM orders WHERE vehicle_id = ?;";
     private static final String GET_NUMBER_OF_HOURS_BY_EMPLOYEE_ID = "SELECT SUM(repair_time_in_hours) AS hours FROM orders WHERE actual_repair_start_date BETWEEN ? AND ? AND employee_id = ?;";
@@ -97,10 +98,26 @@ public class OrderDao {
         return orderList;
     }
 
-    public List<Order> getOrdersByEmployeeId(int employeeId) {
+    public List<Order> getAllActiveOrders() {
         List<Order> orderList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_ORDERS_BY_EMPLOYEE_ID)) {
+             PreparedStatement statement = connection.prepareStatement(GET_ALL_ACTIVE_ORDERS_QUERY);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Order order = new Order();
+                setOrderValues(resultSet, order);
+                orderList.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderList;
+    }
+
+    public List<Order> getActiveOrdersByEmployeeId(int employeeId) {
+        List<Order> orderList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_ACTIVE_ORDERS_BY_EMPLOYEE_ID)) {
             statement.setInt(1, employeeId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {

@@ -1,8 +1,6 @@
 package pl.qceyco.web.employees;
 
-import pl.qceyco.dao.EmployeeDao;
 import pl.qceyco.dao.OrderDao;
-import pl.qceyco.model.Employee;
 import pl.qceyco.model.Order;
 
 import javax.servlet.ServletException;
@@ -19,9 +17,9 @@ public class OrdersOfEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         OrderDao orderDao = new OrderDao();
-        List<Order> orders = orderDao.getOrdersByEmployeeId(Integer.valueOf(id));
+        List<Order> orders = orderDao.getActiveOrdersByEmployeeId(Integer.valueOf(id));
         if (orders == null || orders.size() == 0) {
-            request.setAttribute("noAssignedOrdersError", "This employee has no assigned orders");
+            request.setAttribute("noAssignedOrdersError", "This employee has no active orders");
         }
         request.setAttribute("orders", orders);
         request.setAttribute("employeeId", id);
