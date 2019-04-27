@@ -3,10 +3,7 @@ package pl.qceyco.dao;
 import pl.qceyco.model.Order;
 import pl.qceyco.utils.DbUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +16,10 @@ public class OrderDao {
     private static final String GET_ORDERS_BY_EMPLOYEE_ID = "SELECT * FROM orders WHERE employee_id = ?;";
     private static final String GET_ORDERS_BY_CUSTOMER_ID = "SELECT * FROM orders JOIN vehicles ON orders.vehicle_id = vehicles.id WHERE vehicles.customer_id = ?;";
     private static final String GET_ORDERS_BY_VEHICLE_ID = "SELECT * FROM orders WHERE vehicle_id = ?;";
+    private static final String GET_NUMBER_OF_HOURS_BY_EMPLOYEE_ID = "SELECT SUM(repair_time_in_hours) AS hours FROM orders WHERE actual_repair_start_date BETWEEN ? AND ? AND employee_id = ?;";
+    private static final String GET_INCOME_IN_SPECIFIC_PERIOD = "SELECT SUM(cost_final_to_pay) AS income FROM orders WHERE actual_repair_start_date BETWEEN ? AND ?;";
+    private static final String GET_MATERIALS_COST_IN_SPECIFIC_PERIOD = "SELECT SUM(cost_used_parts) AS cost_materials FROM orders WHERE actual_repair_start_date BETWEEN ? AND ?;";
+
 
     public Order createOrder(Order order) {
         try (Connection connection = DbUtil.getConnection();
@@ -179,6 +180,58 @@ public class OrderDao {
         order.setAssignedEmployeeById(resultSet.getInt("employee_id"));
         order.setRepairedVehicleById(resultSet.getInt("vehicle_id"));
         order.setRepairStatusById(resultSet.getInt("status_id"));
+    }
+
+    public Double getNumberOfHoursByEmployeeId(int employeeId, Date start, Date end) {
+        Double numberOfHours = null;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_NUMBER_OF_HOURS_BY_EMPLOYEE_ID)) {
+            statement.setDate(1, start);
+            statement.setDate(2, end);
+            statement.setInt(3, employeeId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    numberOfHours = resultSet.getDouble(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return numberOfHours;
+    }
+
+    public Double getIncomeForSpecificPeriod(Date start, Date end) {
+        Double income = null;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_INCOME_IN_SPECIFIC_PERIOD)) {
+            statement.setDate(1, start);
+            statement.setDate(2, end);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    income = resultSet.getDouble(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return income;
+    }
+
+    public Double getMaterialsCostForSpecificPeriod(Date start, Date end) {
+        Double cost = null;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_MATERIALS_COST_IN_SPECIFIC_PERIOD)) {
+            statement.setDate(1, start);
+            statement.setDate(2, end);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    cost = resultSet.getDouble(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cost;
     }
 
 }
