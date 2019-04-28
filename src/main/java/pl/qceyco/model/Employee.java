@@ -88,16 +88,5 @@ public class Employee {
         this.hourlyRate = hourlyRate;
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", remarks='" + remarks + '\'' +
-                ", hourlyRate=" + hourlyRate +
-                '}';
-    }
+
 }

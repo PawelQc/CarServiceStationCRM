@@ -17,11 +17,9 @@ import java.sql.Date;
 @WebServlet("/add-customer")
 public class AddCustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String birthDate = request.getParameter("birthDate");
-
         if (StringUtils.isBlank(firstName) || StringUtils.isBlank(lastName) || StringUtils.isBlank(birthDate)) {
             request.setAttribute("notCompleteDataError", "Please fill in the form completely!");
             doGet(request, response);

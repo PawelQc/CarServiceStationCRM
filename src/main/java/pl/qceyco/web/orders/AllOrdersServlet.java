@@ -15,7 +15,6 @@ import java.util.List;
 public class AllOrdersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getAllOrders();
         if (orders == null || orders.size() == 0) {

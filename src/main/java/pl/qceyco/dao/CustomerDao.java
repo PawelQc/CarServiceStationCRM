@@ -99,7 +99,7 @@ public class CustomerDao {
         List<Customer> customerList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(SEARCH_FOR_CUSTOMER_BY_LASTNAME)) {
-            statement.setString(1, "%"+customerName+"%");
+            statement.setString(1, "%" + customerName + "%");
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Customer customer = new Customer();
