@@ -16,7 +16,6 @@ import java.util.List;
 @WebServlet("/add-order")
 public class AddOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String acceptanceDate = request.getParameter("acceptanceDate");
         String plannedRepairStartDate = request.getParameter("plannedRepairStartDate");
         String actualRepairStartDate = request.getParameter("actualRepairStartDate");
@@ -28,7 +27,6 @@ public class AddOrderServlet extends HttpServlet {
         String costFinalToPay = request.getParameter("costFinalToPay");
         String costUsedParts = request.getParameter("costUsedParts");
         String repairTimeInHours = request.getParameter("repairTimeInHours");
-
         if (StringUtils.isBlank(acceptanceDate) || StringUtils.isBlank(plannedRepairStartDate) ||
                 StringUtils.isBlank(actualRepairStartDate) || StringUtils.isBlank(assignedEmployeeId) ||
                 StringUtils.isBlank(problemDescription) || StringUtils.isBlank(repairDescription) ||
@@ -39,7 +37,6 @@ public class AddOrderServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-
         StatusDao statusDao = new StatusDao();
         Status status = statusDao.getStatusById(Integer.valueOf(repairStatusId));
         VehicleDao vehicleDao = new VehicleDao();
@@ -58,15 +55,12 @@ public class AddOrderServlet extends HttpServlet {
         StatusDao statusDao = new StatusDao();
         List<Status> statusList = statusDao.getAllStatus();
         request.setAttribute("statusList", statusList);
-
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> employeeList = employeeDao.getAllEmployees();
         request.setAttribute("employeeList", employeeList);
-
         VehicleDao vehicleDao = new VehicleDao();
         List<Vehicle> vehicleList = vehicleDao.getAllVehicles();
         request.setAttribute("vehicleList", vehicleList);
-
         getServletContext().getRequestDispatcher("/orders/addOrder.jsp")
                 .forward(request, response);
     }

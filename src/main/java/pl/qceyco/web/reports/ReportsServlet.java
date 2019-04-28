@@ -9,9 +9,6 @@ import java.io.IOException;
 
 @WebServlet("/reports")
 public class ReportsServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/reports/allReports.jsp")

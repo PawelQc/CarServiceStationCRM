@@ -36,20 +36,9 @@ public class Status {
         this.name = name;
     }
 
-    public int getStatusOrder() {
-        return statusOrder;
-    }
-
     public void setStatusOrder(int statusOrder) {
         this.statusOrder = statusOrder;
     }
 
-    @Override
-    public String toString() {
-        return "Status{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", statusOrder=" + statusOrder +
-                '}';
-    }
+
 }

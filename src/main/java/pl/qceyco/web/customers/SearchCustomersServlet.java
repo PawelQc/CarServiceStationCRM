@@ -16,17 +16,10 @@ import java.util.List;
 public class SearchCustomersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String lastName = request.getParameter("lastName");
-        if (StringUtils.isBlank(lastName)) {
-            request.setAttribute("noCustomersError", "There are no such customers in the database!");
-            getServletContext().getRequestDispatcher("/customers/searchCustomers.jsp")
-                    .forward(request, response);
-            return;
-        }
         CustomerDao customerDao = new CustomerDao();
         List<Customer> customers = customerDao.searchForCustomerByLastName(lastName);
-        if (customers == null || customers.size() == 0) {
+        if (StringUtils.isBlank(lastName) || customers == null || customers.size() == 0) {
             request.setAttribute("noCustomersError", "There are no such customers in the database!");
             getServletContext().getRequestDispatcher("/customers/searchCustomers.jsp")
                     .forward(request, response);

@@ -19,8 +19,6 @@ public class UpdateCustomerServlet extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String birthDate = request.getParameter("birthDate");
-
-
         if (StringUtils.isBlank(firstName) || StringUtils.isBlank(lastName) || StringUtils.isBlank(birthDate)) {
             request.setAttribute("notCompleteDataError", "Please fill in the form completely!");
             doGet(request, response);

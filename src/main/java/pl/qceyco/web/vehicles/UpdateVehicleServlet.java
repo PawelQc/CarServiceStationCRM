@@ -1,9 +1,7 @@
 package pl.qceyco.web.vehicles;
 
 import org.apache.commons.lang3.StringUtils;
-import pl.qceyco.dao.CustomerDao;
 import pl.qceyco.dao.VehicleDao;
-import pl.qceyco.model.Customer;
 import pl.qceyco.model.Vehicle;
 
 import javax.servlet.ServletException;

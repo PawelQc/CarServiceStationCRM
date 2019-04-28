@@ -20,7 +20,6 @@ import java.util.Map;
 @WebServlet("/timesheet-report")
 public class TimesheetReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         if (StringUtils.isBlank(startDate) || StringUtils.isBlank(endDate)) {

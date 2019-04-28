@@ -92,10 +92,6 @@ public class Order {
         return assignedEmployee;
     }
 
-    public void setAssignedEmployee(Employee assignedEmployee) {
-        this.assignedEmployee = assignedEmployee;
-    }
-
     public String getProblemDescription() {
         return problemDescription;
     }
@@ -116,16 +112,8 @@ public class Order {
         return repairStatus;
     }
 
-    public void setRepairStatus(Status repairStatus) {
-        this.repairStatus = repairStatus;
-    }
-
     public Vehicle getRepairedVehicle() {
         return repairedVehicle;
-    }
-
-    public void setRepairedVehicle(Vehicle repairedVehicle) {
-        this.repairedVehicle = repairedVehicle;
     }
 
     public double getCostFinalToPay() {
@@ -178,22 +166,5 @@ public class Order {
         this.repairStatus = repairStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", acceptanceDate=" + acceptanceDate +
-                ", plannedRepairStartDate=" + plannedRepairStartDate +
-                ", actualRepairStartDate=" + actualRepairStartDate +
-                ", assignedEmployee=" + assignedEmployee +
-                ", problemDescription='" + problemDescription + '\'' +
-                ", repairDescription='" + repairDescription + '\'' +
-                ", repairStatus=" + repairStatus +
-                ", repairedVehicle=" + repairedVehicle +
-                ", costFinalToPay=" + costFinalToPay +
-                ", costUsedParts=" + costUsedParts +
-                ", costEmployeeHourlyRate=" + costEmployeeHourlyRate +
-                ", repairTimeInHours=" + repairTimeInHours +
-                '}';
-    }
+
 }

@@ -1,4 +1,5 @@
-<footer>
-    <p>Contact information: <a href="mailto:someone@example.com">
-        someone@example.com</a>.</p>
-</footer>
+<div class="navbar navbar-fixed-bottom">
+    <footer>
+        <h4> Contact information: <a href="mailto:qceyco@car-service.com"> qceyco@car-service.com</a></h4>
+    </footer>
+</div>

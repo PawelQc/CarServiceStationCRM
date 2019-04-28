@@ -15,7 +15,6 @@ import java.util.List;
 public class AllEmployeesServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> employees = employeeDao.getAllEmployees();
         if (employees == null || employees.size() == 0) {

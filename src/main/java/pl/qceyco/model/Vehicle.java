@@ -98,17 +98,6 @@ public class Vehicle {
         this.customer = customer;
     }
 
-    @Override
-    public String toString() {
-        return "Vehicle{" +
-                "id=" + id +
-                ", model='" + model + '\'' +
-                ", brand='" + brand + '\'' +
-                ", productionYear=" + productionYear +
-                ", registrationNumber='" + registrationNumber + '\'' +
-                ", nextReviewDate=" + nextReviewDate +
-                ", customer=" + customer +
-                '}';
-    }
+
 }
 

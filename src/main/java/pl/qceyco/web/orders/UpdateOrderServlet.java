@@ -26,7 +26,6 @@ public class UpdateOrderServlet extends HttpServlet {
         String costFinalToPay = request.getParameter("costFinalToPay");
         String costUsedParts = request.getParameter("costUsedParts");
         String repairTimeInHours = request.getParameter("repairTimeInHours");
-
         if (StringUtils.isBlank(acceptanceDate) || StringUtils.isBlank(plannedRepairStartDate) ||
                 StringUtils.isBlank(actualRepairStartDate) || StringUtils.isBlank(assignedEmployeeId) ||
                 StringUtils.isBlank(problemDescription) || StringUtils.isBlank(repairDescription) ||
@@ -36,7 +35,6 @@ public class UpdateOrderServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-
         String orderId = request.getParameter("orderId");
         OrderDao orderDao = new OrderDao();
         Order order = orderDao.getOrderById(Integer.valueOf(orderId));
@@ -58,20 +56,16 @@ public class UpdateOrderServlet extends HttpServlet {
         StatusDao statusDao = new StatusDao();
         List<Status> statusList = statusDao.getAllStatus();
         request.setAttribute("statusList", statusList);
-
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> employeeList = employeeDao.getAllEmployees();
         request.setAttribute("employeeList", employeeList);
-
         VehicleDao vehicleDao = new VehicleDao();
         List<Vehicle> vehicleList = vehicleDao.getAllVehicles();
         request.setAttribute("vehicleList", vehicleList);
-
         String orderId = request.getParameter("orderId");
         OrderDao orderDao = new OrderDao();
         Order order = orderDao.getOrderById(Integer.valueOf(orderId));
         request.setAttribute("order", order);
-
         getServletContext().getRequestDispatcher("/orders/updateOrder.jsp")
                 .forward(request, response);
     }
