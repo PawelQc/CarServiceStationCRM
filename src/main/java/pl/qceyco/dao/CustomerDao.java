@@ -17,7 +17,7 @@ public class CustomerDao {
     private static final String DELETE_CUSTOMER_QUERY = "DELETE FROM customers WHERE id = ?;";
     private static final String GET_ALL_CUSTOMERS_QUERY = "SELECT * FROM customers;";
     private static final String GET_CUSTOMER_BY_ID_QUERY = "SELECT * FROM customers WHERE id = ?;";
-
+    private static final String SEARCH_FOR_CUSTOMER_BY_LASTNAME = "SELECT * FROM customers WHERE last_name like ?;";
 
     public Customer createCustomer(Customer customer) {
         try (Connection connection = DbUtil.getConnection();
@@ -90,6 +90,24 @@ public class CustomerDao {
                 customerList.add(customer);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerList;
+    }
+
+    public List<Customer> searchForCustomerByLastName(String customerName) {
+        List<Customer> customerList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SEARCH_FOR_CUSTOMER_BY_LASTNAME)) {
+            statement.setString(1, "%"+customerName+"%");
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Customer customer = new Customer();
+                    setCustomerValues(customer, resultSet);
+                    customerList.add(customer);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return customerList;

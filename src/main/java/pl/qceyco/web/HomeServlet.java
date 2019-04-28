@@ -16,12 +16,10 @@ public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //DO ZMIANY METODA-POKAZUJEMY TYLKO AKTUALNE ORDERY
-
         OrderDao orderDao = new OrderDao();
-        List<Order> orders = orderDao.getAllOrders();
-        if (orders == null) {
-            request.setAttribute("noOrdersError", "There are no pending orders");
+        List<Order> orders = orderDao.getAllActiveOrders();
+        if (orders == null || orders.size() == 0) {
+            request.setAttribute("noOrdersError", "There are no pending orders with 'in repair' status!");
             getServletContext().getRequestDispatcher("/index.jsp")
                     .forward(request, response);
             return;

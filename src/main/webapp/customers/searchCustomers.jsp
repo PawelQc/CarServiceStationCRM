@@ -2,20 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Customers</title>
+    <title>Customers search</title>
 </head>
 <body>
 <%@ include file="../fragments/header.jspf" %>
 
-<h2>List of customers</h2>
-
-<form action="/search-customers" method="get">
-    Search for customer by his last name:<br>
-    <input type="text" name="lastName" placeholder="last name">
-    <input type="submit" value="Search">
-</form>
-
-<a href="/add-customer">Add customer</a>
+<h2>List of found customers</h2>
 
 <h4>${noCustomersError}</h4> <h4>${deleteMessage}</h4>
 <table border="1">

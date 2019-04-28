@@ -22,7 +22,6 @@ public class UpdateOrderServlet extends HttpServlet {
         String assignedEmployeeId = request.getParameter("assignedEmployeeId");
         String problemDescription = request.getParameter("problemDescription");
         String repairDescription = request.getParameter("repairDescription");
-        String repairStatusId = request.getParameter("repairStatus");
         String repairedVehicleId = request.getParameter("repairedVehicleId");
         String costFinalToPay = request.getParameter("costFinalToPay");
         String costUsedParts = request.getParameter("costUsedParts");
@@ -31,9 +30,8 @@ public class UpdateOrderServlet extends HttpServlet {
         if (StringUtils.isBlank(acceptanceDate) || StringUtils.isBlank(plannedRepairStartDate) ||
                 StringUtils.isBlank(actualRepairStartDate) || StringUtils.isBlank(assignedEmployeeId) ||
                 StringUtils.isBlank(problemDescription) || StringUtils.isBlank(repairDescription) ||
-                StringUtils.isBlank(repairStatusId) || StringUtils.isBlank(repairedVehicleId) ||
-                StringUtils.isBlank(costFinalToPay) || StringUtils.isBlank(costUsedParts) ||
-                StringUtils.isBlank(repairTimeInHours)) {
+                StringUtils.isBlank(repairedVehicleId) || StringUtils.isBlank(costFinalToPay) ||
+                StringUtils.isBlank(costUsedParts) || StringUtils.isBlank(repairTimeInHours)) {
             request.setAttribute("notCompleteDataError", "Please fill in the form completely!");
             doGet(request, response);
             return;
@@ -47,7 +45,6 @@ public class UpdateOrderServlet extends HttpServlet {
         order.setActualRepairStartDate(Date.valueOf(actualRepairStartDate));
         order.setRepairDescription(repairDescription);
         order.setProblemDescription(problemDescription);
-        order.setRepairStatusById(Integer.valueOf(repairStatusId));
         order.setRepairedVehicleById(Integer.valueOf(repairedVehicleId));
         order.setAssignedEmployeeById(Integer.valueOf(assignedEmployeeId));
         order.setCostFinalToPay(Double.valueOf(costFinalToPay));

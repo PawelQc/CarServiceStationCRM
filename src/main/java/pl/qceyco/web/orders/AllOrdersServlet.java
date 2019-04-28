@@ -1,7 +1,7 @@
 package pl.qceyco.web.orders;
 
-import pl.qceyco.dao.OrderDao;
-import pl.qceyco.model.Order;
+import pl.qceyco.dao.*;
+import pl.qceyco.model.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +15,12 @@ import java.util.List;
 public class AllOrdersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getAllOrders();
         if (orders == null || orders.size() == 0) {
             request.setAttribute("noOrdersError", "There are no orders in the database!");
-            getServletContext().getRequestDispatcher("/allOrders.jsp")
+            getServletContext().getRequestDispatcher("/orders/allOrders.jsp")
                     .forward(request, response);
             return;
         }

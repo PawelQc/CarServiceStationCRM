@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/orders-of-vehicle")
-public class OrdersOfVehicleServlet extends HttpServlet {
+public class AllOrdersOfVehicleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String vehicleId = request.getParameter("vehicleId");
@@ -23,7 +23,7 @@ public class OrdersOfVehicleServlet extends HttpServlet {
         }
         request.setAttribute("orders", orders);
         request.setAttribute("vehicleId", vehicleId);
-        getServletContext().getRequestDispatcher("/vehicles/ordersOfVehicle.jsp")
+        getServletContext().getRequestDispatcher("/vehicles/allOrdersOfVehicle.jsp")
                 .forward(request, response);
     }
 }

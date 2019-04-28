@@ -19,7 +19,7 @@ public class AllCustomersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CustomerDao customerDao = new CustomerDao();
         List<Customer> customers = customerDao.getAllCustomers();
-        if (customers == null) {
+        if (customers == null || customers.size() == 0) {
             request.setAttribute("noCustomersError", "There are no customers in the database!");
             getServletContext().getRequestDispatcher("/customers/allCustomers.jsp")
                     .forward(request, response);

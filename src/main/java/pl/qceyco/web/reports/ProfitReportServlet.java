@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import pl.qceyco.dao.EmployeeDao;
 import pl.qceyco.dao.OrderDao;
 import pl.qceyco.model.Employee;
+import pl.qceyco.model.Order;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,15 +27,16 @@ public class ProfitReportServlet extends HttpServlet {
             doGet(request, response);
             return;
         }
-        EmployeeDao employeeDao = new EmployeeDao();
-        List<Employee> employees = employeeDao.getAllEmployees();
-        if (employees == null || employees.size() == 0) {
-            request.setAttribute("noEmplyeesError", "There are no employees in the database! Cannot generate report!");
+        OrderDao orderDao = new OrderDao();
+        List<Order> orders = orderDao.getAllOrders();
+        if (orders == null || orders.size() == 0) {
+            request.setAttribute("noOrdersError", "There is not sufficient data in the database! Cannot generate report!");
             getServletContext().getRequestDispatcher("/reports/profitReportView.jsp")
                     .forward(request, response);
             return;
         }
-        OrderDao orderDao = new OrderDao();
+        EmployeeDao employeeDao = new EmployeeDao();
+        List<Employee> employees = employeeDao.getAllEmployees();
         Double income = orderDao.getIncomeForSpecificPeriod(Date.valueOf(startDate),Date.valueOf(endDate));
         Double materialsCost = orderDao.getMaterialsCostForSpecificPeriod(Date.valueOf(startDate),Date.valueOf(endDate));
         double labourCosts = 0;
@@ -44,7 +46,6 @@ public class ProfitReportServlet extends HttpServlet {
             labourCosts += hours * hourlyRate;
         }
         double profit = income - (materialsCost + labourCosts);
-
         request.setAttribute("profit", profit);
         request.setAttribute("labourCosts", labourCosts);
         request.setAttribute("income", income);
