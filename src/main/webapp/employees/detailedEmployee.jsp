@@ -10,31 +10,38 @@
 <h2>Employee of id ${employee.id}</h2>
 
 <table border="1">
-    <thead>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Address</th>
-    <th>Phone number</th>
-    <th>Remarks</th>
-    <th>Hourly rate (PLN)</th>
-    <th>Actions</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>${employee.firstName}</td>
-            <td>${employee.lastName}</td>
-            <td>${employee.address}</td>
-            <td>${employee.phoneNumber}</td>
-            <td>${employee.remarks}</td>
-            <td>${employee.hourlyRate}</td>
-            <td>
-                <a href="/update-employee?id=${employee.id}">Edit</a>
-                <a href="/delete-employee?id=${employee.id}">Delete</a>
-                <a href="/orders-of-employee?id=${employee.id}">Show orders</a>
-            </td>
-        </tr>
-
-    </tbody>
+    <tr>
+        <th>First name</th>
+        <td>${employee.firstName}</td>
+    </tr>
+    <tr>
+        <th>Last name</th>
+        <td>${employee.lastName}</td>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <td>${employee.address}</td>
+    </tr>
+    <tr>
+        <th>Phone number</th>
+        <td>${employee.phoneNumber}</td>
+    </tr>
+    <tr>
+        <th>Remarks</th>
+        <td>${employee.remarks}</td>
+    </tr>
+    <tr>
+        <th>Hourly rate (PLN)</th>
+        <td>${employee.hourlyRate}</td>
+    </tr>
+    <tr>
+        <th>Actions</th>
+        <td>
+            <a href="/update-employee?id=${employee.id}">Edit</a>
+            <a href="/delete-employee?id=${employee.id}">Delete</a>
+            <a href="/orders-of-employee?id=${employee.id}">Show orders</a>
+        </td>
+    </tr>
 </table>
 
 <%@ include file="../fragments/footer.jspf" %>

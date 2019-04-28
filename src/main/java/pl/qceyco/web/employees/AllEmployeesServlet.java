@@ -18,7 +18,7 @@ public class AllEmployeesServlet extends HttpServlet {
 
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> employees = employeeDao.getAllEmployees();
-        if (employees == null) {
+        if (employees == null || employees.size() == 0) {
             request.setAttribute("noEmployeesError", "There are no emplyees in the database!");
             getServletContext().getRequestDispatcher("/employees/allEmployees.jsp")
                     .forward(request, response);

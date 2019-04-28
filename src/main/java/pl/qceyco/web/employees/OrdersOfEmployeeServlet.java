@@ -19,7 +19,7 @@ public class OrdersOfEmployeeServlet extends HttpServlet {
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getActiveOrdersByEmployeeId(Integer.valueOf(id));
         if (orders == null || orders.size() == 0) {
-            request.setAttribute("noAssignedOrdersError", "This employee has no active orders");
+            request.setAttribute("noAssignedOrdersError", "This employee has no active orders!");
         }
         request.setAttribute("orders", orders);
         request.setAttribute("employeeId", id);

@@ -10,7 +10,7 @@
 <h2>Profit report</h2>
 <h3>Report period: ${startDate} - ${endDate}</h3>
 
-<h4>${noEmplyeesError}</h4>
+<h4>${noOrdersError}</h4>
 
 
 <table border="1">

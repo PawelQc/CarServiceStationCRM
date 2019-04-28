@@ -10,45 +10,70 @@
 <h2>Order of id ${order.id}</h2>
 
 <table border="1">
-    <thead>
-    <th>Order id</th>
-    <th>Acceptance</th>
-    <th>Planned start</th>
-    <th>Actual start</th>
-    <th>Problem description</th>
-    <th>Repair description</th>
-    <th>Final cost (PLN)</th>
-    <th>Used materials (PLN)</th>
-    <th>Labour cost (PLN/hour)</th>
-    <th>Time(hours)</th>
-    <th>Assigned employee</th>
-    <th>Vehicle</th>
-    <th>Repair status</th>
-    <th>Customer name</th>
-    <th>Actions</th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>${order.id}</td>
-            <td>${order.acceptanceDate}</td>
-            <td>${order.plannedRepairStartDate}</td>
-            <td>${order.actualRepairStartDate}</td>
-            <td>${order.problemDescription}</td>
-            <td>${order.repairDescription}</td>
-            <td>${order.costFinalToPay}</td>
-            <td>${order.costUsedParts}</td>
-            <td>${order.costEmployeeHourlyRate}</td>
-            <td>${order.repairTimeInHours}</td>
-            <td>${order.assignedEmployee.firstName} ${order.assignedEmployee.lastName}</td>
-            <td>${order.repairedVehicle.model} ${order.repairedVehicle.brand}</td>
-            <td>${order.repairStatus.name}</td>
-            <td>${order.repairedVehicle.customer.firstName} ${order.repairedVehicle.customer.lastName}</td>
-            <td>
-                <a href="/update-order?orderId=${order.id}">Edit</a>
-                <a href="/delete-order?orderId=${order.id}">Delete</a>
-            </td>
-        </tr>
-    </tbody>
+    <tr>
+        <th>Order id</th>
+        <td>${order.id}</td>
+    </tr>
+    <tr>
+        <th>Acceptance</th>
+        <td>${order.acceptanceDate}</td>
+    </tr>
+    <tr>
+        <th>Planned start</th>
+        <td>${order.plannedRepairStartDate}</td>
+    </tr>
+    <tr>
+        <th>Actual start</th>
+        <td>${order.actualRepairStartDate}</td>
+    </tr>
+    <tr>
+        <th>Problem description</th>
+        <td>${order.problemDescription}</td>
+    </tr>
+    <tr>
+        <th>Repair description</th>
+        <td>${order.repairDescription}</td>
+    </tr>
+    <tr>
+        <th>Final cost (PLN)</th>
+        <td>${order.costFinalToPay}</td>
+    </tr>
+    <tr>
+        <th>Used materials (PLN)</th>
+        <td>${order.costUsedParts}</td>
+    </tr>
+    <tr>
+        <th>Labour cost (PLN/hour)</th>
+        <td>${order.costEmployeeHourlyRate}</td>
+    </tr>
+    <tr>
+        <th>Time (hours)</th>
+        <td>${order.repairTimeInHours}</td>
+    </tr>
+    <tr>
+        <th>Assigned employee</th>
+        <td>${order.assignedEmployee.firstName} ${order.assignedEmployee.lastName}</td>
+    </tr>
+    <tr>
+        <th>Vehicle</th>
+        <td>${order.repairedVehicle.model} ${order.repairedVehicle.brand}</td>
+    </tr>
+    <tr>
+        <th>Repair status</th>
+        <td>${order.repairStatus.name}</td>
+    </tr>
+    <tr>
+        <th>Customer</th>
+        <td>${order.repairedVehicle.customer.firstName} ${order.repairedVehicle.customer.lastName}</td>
+    </tr>
+    <tr>
+        <th>Actions</th>
+        <td>
+            <a href="/update-order?orderId=${order.id}">Edit</a>
+            <a href="/delete-order?orderId=${order.id}">Delete</a>
+            <a href="/update-status?orderId=${order.id}">Change status</a>
+        </td>
+    </tr>
 </table>
 
 

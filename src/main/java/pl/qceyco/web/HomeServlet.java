@@ -16,7 +16,6 @@ public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         OrderDao orderDao = new OrderDao();
         List<Order> orders = orderDao.getAllActiveOrders();
         if (orders == null || orders.size() == 0) {

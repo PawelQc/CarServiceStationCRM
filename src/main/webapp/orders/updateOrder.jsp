@@ -38,14 +38,6 @@
         Indicate repair description: <input type="text" name="repairDescription" placeholder="repair description"
                                             value="${order.repairDescription}">
     </label> <br>
-    <label>Indicate repair status (previous: ${order.repairStatus.name}):
-        <select name="repairStatus">
-            <option value="">Select...</option>
-            <c:forEach items="${statusList}" var="status">
-                <option value="${status.id}">${status.name}</option>
-            </c:forEach>
-        </select> <br>
-    </label>
     <label>Indicate repaired vehicle (previous: ${order.repairedVehicle.registrationNumber}):
         <select name="repairedVehicleId">
             <option value="">Select...</option>
