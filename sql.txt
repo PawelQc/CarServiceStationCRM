@@ -1,0 +1,62 @@
+DATABASE CREATION:
+
+        CREATE DATABASE crm CHARACTER SET utf8mb4 COLLATE  utf8mb4_unicode_ci;
+
+
+TABLE CREATION:
+
+        CREATE TABLE customers (id int auto_increment primary key, first_name VARCHAR(125), last_name VARCHAR(125), birth_date DATE);
+        CREATE TABLE employees (id int auto_increment primary key, first_name VARCHAR(125), last_name VARCHAR(125), address VARCHAR(250), phone_number VARCHAR(50), remarks TEXT, hourly_rate DECIMAL(6,2));
+        CREATE TABLE status (id int auto_increment primary key, name VARCHAR(50), status_order int);
+        CREATE TABLE vehicles (id int auto_increment primary key, model VARCHAR(50), brand VARCHAR(50), production_year int, registration_number VARCHAR(100), next_review_date DATE, customer_id int not null, foreign key(customer_id) references customers(id) ON DELETE CASCADE);
+        CREATE TABLE orders (id int auto_increment primary key, acceptance_date DATE, planned_repair_start_date DATE, actual_repair_start_date DATE, problem_description TEXT, repair_description TEXT, cost_final_to_pay DECIMAL(8,2), cost_used_parts DECIMAL(8,2),  cost_employee_hourly_rate DECIMAL(6,2), repair_time_in_hours DECIMAL(6,1), employee_id int not null, foreign key(employee_id) references employees(id) ON DELETE CASCADE, vehicle_id int not null, foreign key(vehicle_id) references vehicles(id) ON DELETE CASCADE, status_id int not null, foreign key(status_id) references status(id) ON DELETE CASCADE);
+
+
+DATA INSERTION:
+
+        INSERT into status values (null, 'Accepted', 1);
+        INSERT into status values (null, 'Confirmed costs', 2);
+        INSERT into status values (null, 'Under repair', 3);
+        INSERT into status values (null, 'Ready', 4);
+        INSERT into status values (null, 'Resign', 5);
+
+        INSERT into customers values (null, 'Adam', 'Kowalski', '1990-06-27');
+        INSERT into customers values (null, 'Michał', 'Zawadzki', '1980-05-30');
+        INSERT into customers values (null, 'Paweł', 'Duda', '1976-05-20');
+        INSERT into customers values (null, 'Agnieszka', 'Michna', '1991-05-10');
+        INSERT into customers values (null, 'Ewa', 'Przeskok', '1950-01-23');
+        INSERT into customers values (null, 'Kazimierz', 'Wolski', '1970-03-13');
+        INSERT into customers values (null, 'Grzegorz', 'Clegane', '1986-01-17');
+
+        INSERT into employees values (null, 'Anastazy', 'Grabowski', 'ul. Wolska 32/23 01-323 Warszawa', '654765876', 'not much experience', 30);
+        INSERT into employees values (null, 'Krzysztof', 'Brzeski', 'ul. Wolna 10/12 01-433 Warszawa', '987789987', 'experienced worker', 50);
+        INSERT into employees values (null, 'Henryk', 'Zrzęczyk', 'ul. Osy 23/32 11-567 Piaseczno', '765098765', 'needs assistance from others', 20);
+
+        INSERT into vehicles values (null, 'golf', 'volkswagen', 2015, 'Golf/2015/AK', '2020-10-24', 1);
+        INSERT into vehicles values (null, 'passat', 'volkswagen', 2018, 'Passat/2018/AK', '2020-11-30', 1);
+        INSERT into vehicles values (null, 'carrera', 'porsche', 1990, 'Carrera/1990/MZ', '2019-11-30', 2);
+        INSERT into vehicles values (null, '306', 'peugeot', 2006, 'P306/2006/PD', '2020-12-30', 3);
+        INSERT into vehicles values (null, 'c4', 'citroen', 2008, 'C4/2008/AM', '2021-01-30', 4);
+        INSERT into vehicles values (null, 'astra', 'opel', 2009, 'Astra/2009/EP', '2020-01-13', 5);
+        INSERT into vehicles values (null, 'X6', 'bmw', 2017, 'X6/2017/WK', '2019-06-03', 6);
+        INSERT into vehicles values (null, 'punto', 'fiat', 2001, 'Punto/2001/WK', '2019-05-04', 7);
+
+        INSERT into orders values (null, '2019-01-03', '2019-01-04', '2019-01-04', 'Vestibulum at consectetur nisl, ut dignissim odio', 'Pellentesque dui quam, tempor ut luctus at', 4600, 1000, 30, 10.5, 1, 1, 3);
+        INSERT into orders values (null, '2019-02-04', '2019-02-04', '2019-02-05', 'Ut mollis metus ac lectus aliquet gravida', 'Integer vitae ornare ante', 6700, 1500, 50, 12.6, 2, 1, 3);
+        INSERT into orders values (null, '2019-02-10', '2019-02-11', '2019-02-12', 'Ut mollis Integer vitae ornare ante aliquet gravida', 'Integer metus ac lectus aliquet ante', 3200, 600, 20, 10.6, 3, 2, 3);
+        INSERT into orders values (null, '2019-02-15', '2019-02-15', '2019-02-15', 'Vestibulum at consectetur vitae ornare ante aliquet gravida', 'Pellentesque dui quam aliquet ante', 12000, 2500, 50, 23.2, 2, 2, 3);
+        INSERT into orders values (null, '2019-02-20', '2019-02-21', '2019-02-23', 'Vivamus ullamcorper gravida egestas', 'Donec varius eget risus ac luctus', 13700, 2900, 50, 12.7, 2, 3, 3);
+        INSERT into orders values (null, '2019-02-20', '2019-02-23', '2019-02-23', 'Vivamus Integer vitae ornare egestas', 'Donec ante aliquet gravida luctus', 20700, 5050, 30, 20.9, 1, 4, 4);
+        INSERT into orders values (null, '2019-03-09', '2019-03-13', '2019-03-14', 'Quisque consectetur condimentum nisi', 'Sed accumsan, velit ac dapibus pharetra', 6300, 920, 20, 8.3, 3, 5, 3);
+        INSERT into orders values (null, '2019-03-21', '2019-03-22', '2019-03-24', 'Quisque mollis Integer vitae ornare nisi', 'Sed ornare ante aliquet gravida', 32000, 9870, 50, 32.5, 2, 6, 5);
+        INSERT into orders values (null, '2019-04-24', '2019-04-25', '2019-04-29', 'Ut mollis metus a vitae ornare nisi', 'Vivamus ullamcorper gravida', 65600, 2890, 20, 34.5, 3, 7, 2);
+        INSERT into orders values (null, '2019-04-24', '2019-04-26', '2019-04-27', 'Donec varius eget risus ac ornare nisi', 'Ut mollis Integer vitae ornare', 4300, 600, 30, 8.5, 1, 8, 5);
+        INSERT into orders values (null, '2019-04-27', '2019-04-28', '2019-04-29', 'Vivamus ullamcorper risus ac ornare nisi', 'Integer vitae ornare ornare', 7680, 890, 50, 8.8, 2, 8, 1);
+
+
+
+
+
+
+
+
